@@ -9,6 +9,7 @@ namespace FlowerShop
         private List<Flower> flowers;
         private bool isDelivered = false;
         public int Id { get; }
+		public IOrderDAO dao;		
 
         // should apply a 20% mark-up to each flower.
         public double Price {
@@ -33,13 +34,15 @@ namespace FlowerShop
 
         public Order(IOrderDAO dao, IClient client)
         {
+			this.dao = dao;
             Id = dao.AddOrder(client);
         }
 
         // used when we already have an order with an Id.
         public Order(IOrderDAO dao, IClient client, bool isDelivered = false)
         {
-            this.flowers = new List<Flower>();
+            this.dao = dao;
+			this.flowers = new List<Flower>();
             this.isDelivered = isDelivered;
             Client = client;
             Id = dao.AddOrder(client);
@@ -52,7 +55,8 @@ namespace FlowerShop
 
         public void Deliver()
         {
-            throw new NotImplementedException();
+			this.isDelivered = true;	
+			dao.SetDelivered(this);
         }
     }
 }
