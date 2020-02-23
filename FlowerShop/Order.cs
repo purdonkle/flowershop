@@ -14,7 +14,14 @@ namespace FlowerShop
         // should apply a 20% mark-up to each flower.
         public double Price {
             get {
-                return 0;
+                double total = 0;
+
+                for (var i=0; i<flowers.Count; i++)
+                {
+                    total += flowers[i].Cost + (flowers[i].Cost * 0.2);
+                }
+
+                return total;
             }
         }
 
